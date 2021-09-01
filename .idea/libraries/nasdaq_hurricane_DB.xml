@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="nasdaq_hurricane_DB">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/nasdaq_hurricane_DB/poi-3.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/nasdaq_hurricane_DB/poi-ooxml-3.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/nasdaq_hurricane_DB/poi-ooxml-schemas-3.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/nasdaq_hurricane_DB/xmlbeans-2.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/nasdaq_hurricane_DB/commons-collections4-4.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
