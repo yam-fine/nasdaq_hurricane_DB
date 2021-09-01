@@ -6,8 +6,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * the purpose of this class is to read excel file that has
@@ -32,7 +33,7 @@ public class ExcelFileRader {
 
 	//	ExcelFileRader(String usersPath){}
 
-	public Map<Integer, dateData> readFile(String usersPath) {
+	public Map<Integer, dateData> readFile(String usersPath) throws ParseException {
 		try {
 			//obtaining input bytes from a file
 			fis = new FileInputStream(new File("nasdaq_db/seconedchance.xlsx"));
@@ -101,20 +102,46 @@ public class ExcelFileRader {
 		}
 		return data;
 	}
-	public int dateToInt(String cellString) {
-		if(cellString.equals("08/12/2021")){
-			System.out.println("jjj");
+	public int dateToInt(String cellString) throws ParseException {
+		String[] values;
+		boolean os_changes_values = false;
+		Map<String, Integer> dic = new HashMap<>();
+		dic.put("Jan", 1);
+		dic.put("Feb", 2);
+		dic.put("Mar", 3);
+		dic.put("Apr", 4);
+		dic.put("May", 5);
+		dic.put("Jun", 6);
+		dic.put("Jul", 7);
+		dic.put("Aug", 8);
+		dic.put("Sep", 9);
+		dic.put("Oct", 10);
+		dic.put("Nov", 11);
+		dic.put("Dec", 12);
+
+		if (cellString.contains("/"))
+			values = cellString.split("/");
+		else {
+			values = cellString.split("-");
+			os_changes_values = true;
 		}
-		String[] values = cellString.split("/");
-		if(values.length == 3) {
+		if (values.length == 3 && !os_changes_values) {
 			int day = Integer.parseInt(values[1]);
 			int month = Integer.parseInt(values[0]);
 			int year = Integer.parseInt(values[2]);
-			//		System.out.println(day+" "+month+" "+year);
 			int num = year * 10000 + month * 100 + day;
 			return num;
 		}
-		return 0;
+		else {
+//			Calendar cal = Calendar.getInstance();
+//			java.util.Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(values[1]);
+//			cal.setTime(date);
+			int day = Integer.parseInt(values[0]);
+			int month = dic.get(values[1]);
+			int year = Integer.parseInt(values[2]);
+			int num = (year * 10000) + (month * 100) + day;
+			return num;
+		}
 	}
 	public float dollarToInt(String cellString) {
 		System.out.println(cellString.substring(1));
