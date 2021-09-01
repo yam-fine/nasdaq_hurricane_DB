@@ -59,46 +59,49 @@ public class ExcelFileRader {
 		int date = 0;
 		for (Row row : sheet) {
 			dateData dD = new dateData();
-			for (Cell cell : row) {
-//				System.out.println(dateToInt(cell.toString()));
-				relativeLoc+=1;
-				switch (relativeLoc) {
-				case Date:
-					System.out.println(dateToInt(cell.toString()));
-					date = dateToInt(cell.toString());
-					break;
-				case Close:
-//					System.out.println(dollarToInt(cell.toString()));
-					dD.initClose(dollarToInt(cell.toString()));
-					break;
+			if(rowCount>=1) {
+				for (Cell cell : row) {
+					//				System.out.println(dateToInt(cell.toString()));
+					relativeLoc += 1;
+					switch (relativeLoc) {
+					case Date:
+						System.out.println(dateToInt(cell.toString()));
+						date = dateToInt(cell.toString());
+						break;
+					case Close:
+						//					System.out.println(dollarToInt(cell.toString()));
+						dD.initClose(dollarToInt(cell.toString()));
+						break;
 
-				case Volume:
-//					System.out.println(volToInt(cell.toString()));
-					dD.initVolume(volToInt(cell.toString()));
-					break;
+					case Volume:
+						//					System.out.println(volToInt(cell.toString()));
+						dD.initVolume(volToInt(cell.toString()));
+						break;
 
-				case Open:
-//					System.out.println(dollarToInt(cell.toString()));
-					dD.initOpen(dollarToInt(cell.toString()));
-					break;
+					case Open:
+						//					System.out.println(dollarToInt(cell.toString()));
+						dD.initOpen(dollarToInt(cell.toString()));
+						break;
 
-				case High:
-//					System.out.println(dollarToInt(cell.toString()));
-					dD.initHigh(dollarToInt(cell.toString()));
-					break;
+					case High:
+						//					System.out.println(dollarToInt(cell.toString()));
+						dD.initHigh(dollarToInt(cell.toString()));
+						break;
 
-				case Low:
-//					System.out.println(dollarToInt(cell.toString()));
-					dD.initLow(dollarToInt(cell.toString()));
+					case Low:
+						//					System.out.println(dollarToInt(cell.toString()));
+						dD.initLow(dollarToInt(cell.toString()));
+
+					}
 
 				}
-
+				data.put(date, dD);
+				relativeLoc = -1;
+				//System.out.println(rowCount);
+				//			return data;
 			}
-			data.put(date, dD);
 			rowCount++;
-			relativeLoc = -1;
-			//System.out.println(rowCount);
-//			return data;
+
 		}
 		return data;
 	}
@@ -132,16 +135,18 @@ public class ExcelFileRader {
 			int num = year * 10000 + month * 100 + day;
 			return num;
 		}
-		else {
+		else if(values.length == 3 && os_changes_values){
 //			Calendar cal = Calendar.getInstance();
 //			java.util.Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(values[1]);
 //			cal.setTime(date);
+//			System.out.println(cellString);
 			int day = Integer.parseInt(values[0]);
 			int month = dic.get(values[1]);
 			int year = Integer.parseInt(values[2]);
-			int num = (year * 10000) + (month * 100) + day;
+			int num = year * 10000 + month * 100 + day;
 			return num;
 		}
+		return 00000000;
 	}
 	public float dollarToInt(String cellString) {
 		System.out.println(cellString.substring(1));
