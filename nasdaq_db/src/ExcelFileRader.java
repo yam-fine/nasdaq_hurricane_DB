@@ -35,7 +35,7 @@ public class ExcelFileRader {
 	public Map<Integer, dateData> readFile(String usersPath) {
 		try {
 			//obtaining input bytes from a file
-			fis = new FileInputStream(new File("C:\\Users\\Yam\\PycharmProjects\\nasdaq_hurricane_DB\\nasdaq_db\\seconedchance.xlsx"));
+			fis = new FileInputStream(new File("nasdaq_db/seconedchance.xlsx"));
 
 		} catch (Exception e) {
 			System.out.println("Problem with file reading in excel file read class ");
