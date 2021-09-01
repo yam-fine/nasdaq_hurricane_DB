@@ -35,8 +35,7 @@ public class ExcelFileRader {
 	public Map<Integer, dateData> readFile(String usersPath) {
 		try {
 			//obtaining input bytes from a file
-			fis = new FileInputStream(new File("C:\\Users\\alona\\IdeaProjects\\job_interview_code" +
-											   "\\seconedchance.xlsx"));
+			fis = new FileInputStream(new File("C:\\Users\\Yam\\PycharmProjects\\nasdaq_hurricane_DB\\nasdaq_db\\seconedchance.xlsx"));
 
 		} catch (Exception e) {
 			System.out.println("Problem with file reading in excel file read class ");
@@ -55,40 +54,51 @@ public class ExcelFileRader {
 		sheet = wb.getSheetAt(0);
 		Map<Integer, dateData> data = new HashMap<>();
 		int rowCount = 0;
-		int relativeLoc = 0;
-		Integer date = 0;
+		int relativeLoc = -1;
+		int date = 0;
 		for (Row row : sheet) {
 			dateData dD = new dateData();
 			for (Cell cell : row) {
 //				System.out.println(dateToInt(cell.toString()));
-
+				relativeLoc+=1;
 				switch (relativeLoc) {
 				case Date:
 					System.out.println(dateToInt(cell.toString()));
 					date = dateToInt(cell.toString());
-					break;
-				case Close:
-//					dD.initClose(dollarToInt(cell.toString()));
-					break;
-				case Volume:
-//					dD.initVolume(volToInt(cell.toString()));
-					break;
-				case Open:
-//					dD.initClose(dollarToInt(cell.toString()));
-					break;
-				case High:
-//					dD.initClose(dollarToInt(cell.toString()));
-					break;
-				case Low:
-//					dD.initClose(dollarToInt(cell.toString()));
-					break;
-				default:
-					relativeLoc++;
-				}
 
-				data.put(date, dD);
+				case Close:
+					System.out.println(dollarToInt(cell.toString()));
+					dD.initClose(dollarToInt(cell.toString()));
+
+
+
+				case Volume:
+					System.out.println(volToInt(cell.toString()));
+					dD.initVolume(volToInt(cell.toString()));
+
+
+				case Open:
+					System.out.println(dollarToInt(cell.toString()));
+					dD.initClose(dollarToInt(cell.toString()));
+
+
+
+				case High:
+					System.out.println(dollarToInt(cell.toString()));
+					dD.initClose(dollarToInt(cell.toString()));
+
+
+
+				case Low:
+					System.out.println(dollarToInt(cell.toString()));
+					dD.initClose(dollarToInt(cell.toString()));
+
+				}
+//				relativeLoc = 0;
+
 				//return data;
 			}
+			data.put(date, dD);
 			rowCount++;
 			relativeLoc = 0;
 			//System.out.println(rowCount);
@@ -106,11 +116,13 @@ public class ExcelFileRader {
 		return num;
 	}
 	public int dollarToInt(String cellString) {
-		return 0;
+		String[] values = cellString.split("$");
+		System.out.println(values[0]);
+		return Integer.parseInt(values[0]);
 
 	}
 	public int volToInt(String cellString) {
-		return 0;
+		return Integer.parseInt(cellString);
 
 	}
 
