@@ -52,10 +52,7 @@ public class ExcelFileRader {
 
 		}
 
-
 		sheet = wb.getSheetAt(0);
-		FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
-
 		Map<Integer, dateData> data = new HashMap<>();
 		int rowCount = 0;
 		int relativeLoc = 0;
@@ -63,47 +60,48 @@ public class ExcelFileRader {
 		for (Row row : sheet) {
 			dateData dD = new dateData();
 			for (Cell cell : row) {
-				System.out.println(cell.toString());
-				//				switch (relativeLoc) {
-				//				case Date:
-				//					date = dateToInt(cell.toString());
-				//					break;
-				//				case Close:
-				//					dD.initClose(dollarToInt(cell.toString()));
-				//					break;
-				//				case Volume:
-				//					dD.initVolume(volToInt(cell.toString()));
-				//					break;
-				//				case Open:
-				//					dD.initClose(dollarToInt(cell.toString()));
-				//					break;
-				//				case High:
-				//					dD.initClose(dollarToInt(cell.toString()));
-				//					break;
-				//				case Low:
-				//					dD.initClose(dollarToInt(cell.toString()));
-				//					break;
-				//				relativeLoc++;
-				//				break;
-				//				default:
-				//					data.put(date, dD);
-				//					relativeLoc = 0;;
-				//				}
+//				System.out.println(dateToInt(cell.toString()));
 
+				switch (relativeLoc) {
+				case Date:
+					System.out.println(dateToInt(cell.toString()));
+					date = dateToInt(cell.toString());
+					break;
+				case Close:
+//					dD.initClose(dollarToInt(cell.toString()));
+					break;
+				case Volume:
+//					dD.initVolume(volToInt(cell.toString()));
+					break;
+				case Open:
+//					dD.initClose(dollarToInt(cell.toString()));
+					break;
+				case High:
+//					dD.initClose(dollarToInt(cell.toString()));
+					break;
+				case Low:
+//					dD.initClose(dollarToInt(cell.toString()));
+					break;
+				default:
+					relativeLoc++;
+				}
 
-				//				return data;
-				//rowCount++;
+				data.put(date, dD);
+				//return data;
 			}
-			//			System.out.println(rowCount);
-			return data;
+			rowCount++;
+			relativeLoc = 0;
+			//System.out.println(rowCount);
+//			return data;
 		}
 		return data;
 	}
 	public int dateToInt(String cellString) {
 		String[] values = cellString.split("/");
-		int day = Integer.parseInt(values[0]);
-		int month = Integer.parseInt(values[1]);
+		int day = Integer.parseInt(values[1]);
+		int month = Integer.parseInt(values[0]);
 		int year = Integer.parseInt(values[2]);
+//		System.out.println(day+" "+month+" "+year);
 		int num = year*10000+month*100+day;
 		return num;
 	}

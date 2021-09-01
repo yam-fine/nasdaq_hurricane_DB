@@ -34,7 +34,7 @@ public class dateData {
 		Low = low;
 		Counter++;
 		if(Close != 0 && Volume != 0 && Open != 0 && High != 0 && Low != 0 && Counter ==5){
-			Valid = true
+			Valid = true;
 		}
 	}
 	int getClose(){
