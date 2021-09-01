@@ -6,9 +6,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -65,46 +63,58 @@ public class ExcelFileRader {
 		for (Row row : sheet) {
 			dateData dD = new dateData();
 			for (Cell cell : row) {
-				//				System.out.println(cell.getCellTypeEnum());
-				switch (relativeLoc) {
-				case Date:
-					date = Integer(dateToInt(cell.toString()));
-					break;
-				case Close:
-					dD.initClose(dollarToInt(cell));
-					break;
-				case Volume:
-					dD.initVolume(volToInt(cell));
-					break;
-				case Open:
-					dD.initClose(dollarToInt(cell));
-					break;
-				case High:
-					dD.initClose(dollarToInt(cell));
-					break;
-				case Low:
-					dD.initClose(dollarToInt(cell));
-					break;
-				relativeLoc++;
-				break;
-				default:
-					data.put(date, dD);
-					relativeLoc = 0;;
-				}
+				System.out.println(cell.toString());
+				//				switch (relativeLoc) {
+				//				case Date:
+				//					date = dateToInt(cell.toString());
+				//					break;
+				//				case Close:
+				//					dD.initClose(dollarToInt(cell.toString()));
+				//					break;
+				//				case Volume:
+				//					dD.initVolume(volToInt(cell.toString()));
+				//					break;
+				//				case Open:
+				//					dD.initClose(dollarToInt(cell.toString()));
+				//					break;
+				//				case High:
+				//					dD.initClose(dollarToInt(cell.toString()));
+				//					break;
+				//				case Low:
+				//					dD.initClose(dollarToInt(cell.toString()));
+				//					break;
+				//				relativeLoc++;
+				//				break;
+				//				default:
+				//					data.put(date, dD);
+				//					relativeLoc = 0;;
+				//				}
 
 
-				return data;
+				//				return data;
 				//rowCount++;
 			}
-//			System.out.println(rowCount);
+			//			System.out.println(rowCount);
 			return data;
 		}
+		return data;
 	}
 	public int dateToInt(String cellString) {
-		return 0;
+		String[] values = cellString.split("/");
+		int day = Integer.parseInt(values[0]);
+		int month = Integer.parseInt(values[1]);
+		int year = Integer.parseInt(values[2]);
+		int num = year*10000+month*100+day;
+		return num;
 	}
-	public int dollarToInt(String cellString) {}
-	public int volToInt(String cellString) {}
+	public int dollarToInt(String cellString) {
+		return 0;
+
+	}
+	public int volToInt(String cellString) {
+		return 0;
+
+	}
 
 
 
