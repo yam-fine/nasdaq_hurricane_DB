@@ -65,64 +65,65 @@ public class ExcelFileRader {
 				case Date:
 					System.out.println(dateToInt(cell.toString()));
 					date = dateToInt(cell.toString());
-
+					break;
 				case Close:
-					System.out.println(dollarToInt(cell.toString()));
+//					System.out.println(dollarToInt(cell.toString()));
 					dD.initClose(dollarToInt(cell.toString()));
-
-
+					break;
 
 				case Volume:
-					System.out.println(volToInt(cell.toString()));
+//					System.out.println(volToInt(cell.toString()));
 					dD.initVolume(volToInt(cell.toString()));
-
+					break;
 
 				case Open:
-					System.out.println(dollarToInt(cell.toString()));
-					dD.initClose(dollarToInt(cell.toString()));
-
-
+//					System.out.println(dollarToInt(cell.toString()));
+					dD.initOpen(dollarToInt(cell.toString()));
+					break;
 
 				case High:
-					System.out.println(dollarToInt(cell.toString()));
-					dD.initClose(dollarToInt(cell.toString()));
-
-
+//					System.out.println(dollarToInt(cell.toString()));
+					dD.initHigh(dollarToInt(cell.toString()));
+					break;
 
 				case Low:
-					System.out.println(dollarToInt(cell.toString()));
-					dD.initClose(dollarToInt(cell.toString()));
+//					System.out.println(dollarToInt(cell.toString()));
+					dD.initLow(dollarToInt(cell.toString()));
 
 				}
-//				relativeLoc = 0;
 
-				//return data;
 			}
 			data.put(date, dD);
 			rowCount++;
-			relativeLoc = 0;
+			relativeLoc = -1;
 			//System.out.println(rowCount);
 //			return data;
 		}
 		return data;
 	}
 	public int dateToInt(String cellString) {
+		if(cellString.equals("08/12/2021")){
+			System.out.println("jjj");
+		}
 		String[] values = cellString.split("/");
-		int day = Integer.parseInt(values[1]);
-		int month = Integer.parseInt(values[0]);
-		int year = Integer.parseInt(values[2]);
-//		System.out.println(day+" "+month+" "+year);
-		int num = year*10000+month*100+day;
-		return num;
+		if(values.length == 3) {
+			int day = Integer.parseInt(values[1]);
+			int month = Integer.parseInt(values[0]);
+			int year = Integer.parseInt(values[2]);
+			//		System.out.println(day+" "+month+" "+year);
+			int num = year * 10000 + month * 100 + day;
+			return num;
+		}
+		return 0;
 	}
-	public int dollarToInt(String cellString) {
-		String[] values = cellString.split("$");
-		System.out.println(values[0]);
-		return Integer.parseInt(values[0]);
+	public float dollarToInt(String cellString) {
+		System.out.println(cellString.substring(1));
+		return Float.parseFloat(cellString.substring(1));
 
 	}
 	public int volToInt(String cellString) {
-		return Integer.parseInt(cellString);
+		System.out.println((int)Float.parseFloat(cellString));
+		return (int)Float.parseFloat(cellString);
 
 	}
 
