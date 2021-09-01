@@ -7,8 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Analyzer" level="project" />
-    <orderEntry type="library" name="nasdaq_hurricane_DB" level="project" />
     <orderEntry type="library" name="src" level="project" />
+    <orderEntry type="library" name="Analyzer" level="project" />
   </component>
 </module>
