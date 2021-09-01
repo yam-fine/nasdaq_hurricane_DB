@@ -1,0 +1,13 @@
+Targets(01/09/2021)
+1. complete D.B
+2. add excel of hurricanes (Alabama & Misissipi & Alabamma tennesi &virginia)
+    +state +date +strength
+
+3. create function that calculates the correlation between strong hurricans (3+) and stock raise
+3. create function that calculates the correlation between very strong hurricans (4+) and stock raise
+
+definition of correlation(without s&p)-
+if stock increased value by 10 % in quarter we define it as not strong
+if stock increased value by 20 % in quarter we define it as medium
+if stock increased value by 30 % in quarter we define it as strong
+if stock increased value by 40 % in quarter we define it as very strong
