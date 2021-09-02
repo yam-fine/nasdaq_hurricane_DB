@@ -33,7 +33,7 @@ public class ExcelFileRader {
 
 	//	ExcelFileRader(String usersPath){}
 
-	public Map<Integer, dateData> readFile(String usersPath) throws ParseException {
+	public Map<Integer, dateData> readStockDataFile(String usersPath) throws ParseException {
 		try {
 			//obtaining input bytes from a file
 			fis = new FileInputStream(new File("nasdaq_db/seconedchance.xlsx"));
@@ -148,18 +148,44 @@ public class ExcelFileRader {
 		}
 		return 00000000;
 	}
+
 	public float dollarToInt(String cellString) {
 		System.out.println(cellString.substring(1));
 		return Float.parseFloat(cellString.substring(1));
-
 	}
+
 	public int volToInt(String cellString) {
 		System.out.println((int)Float.parseFloat(cellString));
 		return (int)Float.parseFloat(cellString);
-
 	}
 
+	public Map<String, hurricaneData> readHurricanekDataFile(String usersPath) throws ParseException {
+		try {
+			//obtaining input bytes from a file
+			fis = new FileInputStream(new File("nasdaq_db/seconedchance.xlsx"));
 
+		} catch (Exception e) {
+			System.out.println("Problem with file reading in excel file read class ");
+			return null;
+
+		}
+		try {
+			//creating workbook instance that refers to .xls file
+			wb = new XSSFWorkbook(fis);
+		} catch (Exception e) {
+			System.out.println("Problem with workbook instance in excel file read class ");
+			return null;
+
+		}
+
+		sheet = wb.getSheetAt(0);
+		Map<Integer, dateData> data = new HashMap<>();
+		int rowCount = 0;
+		int relativeLoc = -1;
+		int date = 0;
+		for (Row row : sheet) {
+
+	}
 
 
 }

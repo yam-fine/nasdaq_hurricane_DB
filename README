@@ -11,3 +11,24 @@ if stock increased value by 10 % in quarter we define it as not strong
 if stock increased value by 20 % in quarter we define it as medium
 if stock increased value by 30 % in quarter we define it as strong
 if stock increased value by 40 % in quarter we define it as very strong
+
+how we going to achieve it
+1.create "hurricane reader": a function that reads info about to hurricane(from excel) and arrange into an
+object that holds hurricane's info
+
+2 . "first step func"- function that looks for correlation between hurricane's level and impact on the stock price.
+    a. for each hurricane find the quarter that will be affected
+    b. calculate the average in this week .
+    c. define the correlation (line 9).
+    d*. find the general expectancy of the change (hurrican date to week avg) and the Standard deviation in percentage.
+        - use Uniform distribution (for each hurricane)
+    d**. find the (3+) expectancy of the change (hurrican date to week avg) and the Standard deviation in
+    percentage.
+        - use Uniform distribution (for each hurricane)
+    d***. find the (4+) expectancy of the change (hurrican date to week avg) and the Standard deviation in percentage.
+            - use Uniform distribution (for each hurricane)
+
+    e. print informative output- company name + symbol + expectency & Standard deviation per *
+
+
+
