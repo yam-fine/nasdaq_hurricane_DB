@@ -5,13 +5,13 @@
 //public static final int High = 4;
 //public static final int Low = 5;
 public class dateData {
-	public float Close ;
-	public int Volume ;
-	public float Open ;
-	public float High ;
-	public float Low ;
+	private float Close ;
+	private int Volume ;
+	private float Open ;
+	private float High ;
+	private float Low ;
 	//counts the amount of data that was inserted, helps to validate the data
-	public int Counter = 0 ;
+	private int Counter = 0 ;
 	//indicator to the state of the data true means the data is kosher otherwise there is a problem
 	boolean Valid = false;
 	void initClose(float close){
@@ -37,16 +37,10 @@ public class dateData {
 			Valid = true;
 		}
 	}
-	float getClose(){
-		return Close;
-	}
-	int getVolume(){
-		return Volume ;
-	}
-	float getOpen(){ return Open ;}
-	float getHigh(){ return High ;}
-	float getLow(){
-		return Low ;
-	}
 
+	float getClose(){ return Close;	}
+	int getVolume(){ return Volume; }
+	float getOpen(){ return Open; }
+	float getHigh(){ return High; }
+	float getLow(){	return Low;	}
 }
