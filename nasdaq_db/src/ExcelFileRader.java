@@ -23,13 +23,17 @@ public class ExcelFileRader {
 	//object we use in order o iterate file rows
 	private XSSFWorkbook wb;
 	// file's Properties in order of reading a row
-	public static final int Date = 0;
-	public static final int Close = 1;
-	public static final int Volume = 2;
-	public static final int Open = 3;
-	public static final int High = 4;
-	public static final int Low = 5;
-
+	public static final int stockDate = 0;
+	public static final int stockClose = 1;
+	public static final int stockVolume = 2;
+	public static final int stockOpen = 3;
+	public static final int stockHigh = 4;
+	public static final int stockLow = 5;
+	public static final int hurricaneName = 0;
+	public static final int hurricaneSS = 1;
+	public static final int hurricaneDate = 2;
+	public static final int hurricaneYear = 3;
+	public static final int hurricanState = 4;
 
 	//	ExcelFileRader(String usersPath){}
 
@@ -64,31 +68,31 @@ public class ExcelFileRader {
 					//				System.out.println(dateToInt(cell.toString()));
 					relativeLoc += 1;
 					switch (relativeLoc) {
-					case Date:
+					case stockDate:
 						System.out.println(dateToInt(cell.toString()));
 						date = dateToInt(cell.toString());
 						break;
-					case Close:
+					case stockClose:
 						//					System.out.println(dollarToInt(cell.toString()));
 						dD.initClose(dollarToInt(cell.toString()));
 						break;
 
-					case Volume:
+					case stockVolume:
 						//					System.out.println(volToInt(cell.toString()));
 						dD.initVolume(volToInt(cell.toString()));
 						break;
 
-					case Open:
+					case stockOpen:
 						//					System.out.println(dollarToInt(cell.toString()));
 						dD.initOpen(dollarToInt(cell.toString()));
 						break;
 
-					case High:
+					case stockHigh:
 						//					System.out.println(dollarToInt(cell.toString()));
 						dD.initHigh(dollarToInt(cell.toString()));
 						break;
 
-					case Low:
+					case stockLow:
 						//					System.out.println(dollarToInt(cell.toString()));
 						dD.initLow(dollarToInt(cell.toString()));
 
@@ -159,10 +163,10 @@ public class ExcelFileRader {
 		return (int)Float.parseFloat(cellString);
 	}
 
-	public Map<String, hurricaneData> readHurricanekDataFile(String usersPath) throws ParseException {
+	public Map<String, hurricaneData> readHurricanekDataFile(String usersPath, int years) throws ParseException {
 		try {
 			//obtaining input bytes from a file
-			fis = new FileInputStream(new File("nasdaq_db/seconedchance.xlsx"));
+			fis = new FileInputStream(new File("nasdaq_db/hurricaneDB.xlsx"));
 
 		} catch (Exception e) {
 			System.out.println("Problem with file reading in excel file read class ");
@@ -179,12 +183,50 @@ public class ExcelFileRader {
 		}
 
 		sheet = wb.getSheetAt(0);
-		Map<Integer, dateData> data = new HashMap<>();
+		Map<String, hurricaneData> data = new HashMap<>();
 		int rowCount = 0;
 		int relativeLoc = -1;
-		int date = 0;
+		int yearnum = 2012;
 		for (Row row : sheet) {
+			String name;int date;int category;int year;int month;int day;
+			hurricaneData hD = new hurricaneData();
+			for (Cell cell : row) {
+				if(rowCount>=1) {
+					//				System.out.println(dateToInt(cell.toString()));
+					relativeLoc += 1;
+					switch (relativeLoc) {
+					case hurricaneName:
+						break;
+					case hurricaneSS:
+//											System.out.println(dollarToInt(cell.toString()));
+						break;
 
+					case hurricaneDate:
+						//					System.out.println(volToInt(cell.toString()));
+						break;
+
+					case hurricaneYear:
+						//					System.out.println(dollarToInt(cell.toString()));
+						break;
+
+					case hurricanState:
+						//					System.out.println(dollarToInt(cell.toString()));
+						break;
+
+					}
+
+				}
+				relativeLoc = -1;
+
+			}
+			rowCount++;
+			return null;
+
+		}
+		return data;
+		}
 	}
-}
+
+
+
 
