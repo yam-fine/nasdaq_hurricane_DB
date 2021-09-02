@@ -184,7 +184,7 @@ public class ExcelFileRader {
 		int relativeLoc = -1;
 		int yearnum = 2012;
 		for (Row row : sheet) {
-			String name = null;String state = null;int date = 0;int category = 0;
+			String name = null; String state = null; int date = 0; int category = 0;
 			int year = 0;int month = 0;int day = 0;
 
 			for (Cell cell : row) {
@@ -195,7 +195,7 @@ public class ExcelFileRader {
 						name = cell.toString();
 						break;
 					case hurricaneSS:
-						category = Integer.parseInt(cell.toString().split(" ")[1]);
+						category = Integer.parseInt(cell.toString().substring(9,9));
 						break;
 					case hurricaneDate:
 						String[] arr = cell.toString().split("/");
@@ -219,14 +219,13 @@ public class ExcelFileRader {
 					hurricaneData hD = new hurricaneData(name,category,date,year,month,day,state);
 					data.put(name,hD);
 				}
-				relativeLoc = -1;
-				rowCount++;
+
 			}
-
-
+			relativeLoc = -1;
+			rowCount++;
 		}
 		return data;
-		}
+	}
 
 
 }
