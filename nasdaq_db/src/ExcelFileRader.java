@@ -60,12 +60,11 @@ public class ExcelFileRader {
 		Map<Integer, dateData> data = new HashMap<>();
 		int rowCount = 0;
 		int relativeLoc = -1;
-		int date = 0;
+		int date;float close,open,high,low;int volume;
 		for (Row row : sheet) {
-			dateData dD = new dateData();
 			if(rowCount>=1) {
 				for (Cell cell : row) {
-					//				System.out.println(dateToInt(cell.toString()));
+					//System.out.println(dateToInt(cell.toString()));
 					relativeLoc += 1;
 					switch (relativeLoc) {
 					case stockDate:
@@ -73,39 +72,33 @@ public class ExcelFileRader {
 						date = dateToInt(cell.toString());
 						break;
 					case stockClose:
-						//					System.out.println(dollarToInt(cell.toString()));
-						dD.initClose(dollarToInt(cell.toString()));
+						//System.out.println(dollarToInt(cell.toString()));
+						close = dollarToInt(cell.toString()));
 						break;
-
 					case stockVolume:
-						//					System.out.println(volToInt(cell.toString()));
-						dD.initVolume(volToInt(cell.toString()));
+						//System.out.println(volToInt(cell.toString()));
+						volume = volToInt(cell.toString()));
 						break;
-
 					case stockOpen:
-						//					System.out.println(dollarToInt(cell.toString()));
-						dD.initOpen(dollarToInt(cell.toString()));
+						//System.out.println(dollarToInt(cell.toString()));
+						open = dollarToInt(cell.toString());
 						break;
-
 					case stockHigh:
-						//					System.out.println(dollarToInt(cell.toString()));
-						dD.initHigh(dollarToInt(cell.toString()));
+						//System.out.println(dollarToInt(cell.toString()));
+						high = dollarToInt(cell.toString());
 						break;
-
 					case stockLow:
-						//					System.out.println(dollarToInt(cell.toString()));
-						dD.initLow(dollarToInt(cell.toString()));
-
+						//System.out.println(dollarToInt(cell.toString()));
+						low = dollarToInt(cell.toString());
 					}
-
 				}
+				dateData dD = new dateData(close,volume,open,high,low);
 				data.put(date, dD);
-				relativeLoc = -1;
 				//System.out.println(rowCount);
-				//			return data;
+				//return null;
 			}
 			rowCount++;
-
+			relativeLoc = -1;
 		}
 		return data;
 	}
@@ -154,15 +147,18 @@ public class ExcelFileRader {
 	}
 
 	public float dollarToInt(String cellString) {
-		System.out.println(cellString.substring(1));
+//		System.out.println(cellString.substring(1));
 		return Float.parseFloat(cellString.substring(1));
 	}
 
 	public int volToInt(String cellString) {
-		System.out.println((int)Float.parseFloat(cellString));
+//		System.out.println((int)Float.parseFloat(cellString));
 		return (int)Float.parseFloat(cellString);
 	}
 
+	/*
+		function Purpose is to get hurricanes data file and put the data into hash table
+	 */
 	public Map<String, hurricaneData> readHurricanekDataFile(String usersPath, int years) throws ParseException {
 		try {
 			//obtaining input bytes from a file
@@ -188,44 +184,60 @@ public class ExcelFileRader {
 		int relativeLoc = -1;
 		int yearnum = 2012;
 		for (Row row : sheet) {
-			String name;int date;int category;int year;int month;int day;
-			hurricaneData hD = new hurricaneData();
+			String name;String state;int date;int category;int year;int month;int day;
 			for (Cell cell : row) {
 				if(rowCount>=1) {
-					//				System.out.println(dateToInt(cell.toString()));
 					relativeLoc += 1;
 					switch (relativeLoc) {
 					case hurricaneName:
+						name = cell.toString();
 						break;
 					case hurricaneSS:
-//											System.out.println(dollarToInt(cell.toString()));
+						category = getCategory(cell.toString());
 						break;
-
 					case hurricaneDate:
-						//					System.out.println(volToInt(cell.toString()));
+						//System.out.println(volToInt(cell.toString()));
+						month = getMonth(cell.toString());
+						day = getDay(cell.toString());
 						break;
 
 					case hurricaneYear:
-						//					System.out.println(dollarToInt(cell.toString()));
+						year = Integer.parseInt(cell.toString());
+						//System.out.println(dollarToInt(cell.toString()));
 						break;
 
 					case hurricanState:
-						//					System.out.println(dollarToInt(cell.toString()));
+						state = cell.toString();
+						//System.out.println(dollarToInt(cell.toString()));
 						break;
-
 					}
-
+					hurricaneData hD = new hurricaneData(name,category,date,year,month,day,state);
+					data.put(name,hD);
 				}
 				relativeLoc = -1;
-
+				rowCount++;
 			}
-			rowCount++;
 			return null;
 
 		}
 		return data;
 		}
+	/*
+		gets string in a format "" and returns int represents day in month
+	 */
+	private int getDay(String cell) {
 	}
+	/*
+		gets string in a format "" and returns int represents day in month
+	*/
+	private int getMonth(String cell) {
+	}
+	/*
+		gets string in a format "" and returns int represents the category of the hurrican
+	 */
+	private int getCategory(String cell) {
+	}
+}
 
 
 
