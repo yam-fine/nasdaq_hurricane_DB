@@ -60,7 +60,7 @@ public class ExcelFileRader {
 		Map<Integer, dateData> data = new HashMap<>();
 		int rowCount = 0;
 		int relativeLoc = -1;
-		int date;float close,open,high,low;int volume;
+		int date = 0;float close = 0,open = 0 ,high = 0,low = 0;int volume = 0;
 		for (Row row : sheet) {
 			if(rowCount>=1) {
 				for (Cell cell : row) {
@@ -73,11 +73,11 @@ public class ExcelFileRader {
 						break;
 					case stockClose:
 						//System.out.println(dollarToInt(cell.toString()));
-						close = dollarToInt(cell.toString()));
+						close = dollarToInt(cell.toString());
 						break;
 					case stockVolume:
 						//System.out.println(volToInt(cell.toString()));
-						volume = volToInt(cell.toString()));
+						volume = volToInt(cell.toString());
 						break;
 					case stockOpen:
 						//System.out.println(dollarToInt(cell.toString()));
@@ -184,7 +184,9 @@ public class ExcelFileRader {
 		int relativeLoc = -1;
 		int yearnum = 2012;
 		for (Row row : sheet) {
-			String name;String state;int date;int category;int year;int month;int day;
+			String name = null;String state = null;int date = 0;int category = 0;
+			int year = 0;int month = 0;int day = 0;
+
 			for (Cell cell : row) {
 				if(rowCount>=1) {
 					relativeLoc += 1;
@@ -193,12 +195,12 @@ public class ExcelFileRader {
 						name = cell.toString();
 						break;
 					case hurricaneSS:
-						category = getCategory(cell.toString());
+						category = Integer.parseInt(cell.toString().split(" ")[1]);
 						break;
 					case hurricaneDate:
-						//System.out.println(volToInt(cell.toString()));
-						month = getMonth(cell.toString());
-						day = getDay(cell.toString());
+						String[] arr = cell.toString().split("/");
+						month = Integer.parseInt(arr[0]);
+						day = Integer.parseInt(arr[1]);
 						break;
 
 					case hurricaneYear:
@@ -211,32 +213,22 @@ public class ExcelFileRader {
 						//System.out.println(dollarToInt(cell.toString()));
 						break;
 					}
+//					System.out.println(name+" "+category+" "+date+" "+year+" "+month+" "+day+" "+state);
+					System.out.println(name);
+
 					hurricaneData hD = new hurricaneData(name,category,date,year,month,day,state);
 					data.put(name,hD);
 				}
 				relativeLoc = -1;
 				rowCount++;
 			}
-			return null;
+
 
 		}
 		return data;
 		}
-	/*
-		gets string in a format "" and returns int represents day in month
-	 */
-	private int getDay(String cell) {
-	}
-	/*
-		gets string in a format "" and returns int represents day in month
-	*/
-	private int getMonth(String cell) {
-	}
-	/*
-		gets string in a format "" and returns int represents the category of the hurrican
-	 */
-	private int getCategory(String cell) {
-	}
+
+
 }
 
 
