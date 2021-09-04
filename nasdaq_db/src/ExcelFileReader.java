@@ -14,7 +14,7 @@ import java.util.*;
  * the purpose of this class is to read excel file that has
  * poi link "https://www.youtube.com/watch?v=Teoh7fbpuKY"
  */
-public class ExcelFileRader {
+public class ExcelFileReader {
 
 	//file input object relative to users path
 	private FileInputStream fis;
