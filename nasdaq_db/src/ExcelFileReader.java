@@ -182,7 +182,7 @@ public class ExcelFileReader {
 		Map<String, hurricaneData> data = new HashMap<>();
 		int rowCount = 0;
 		int relativeLoc = -1;
-		int yearnum = 2012;
+//		int yearnum = 2012;
 		for (Row row : sheet) {
 			String name = null; String state = null; int date = 0; int category = 0;
 			int year = 0;int month = 0;int day = 0;
@@ -195,16 +195,20 @@ public class ExcelFileReader {
 						name = cell.toString();
 						break;
 					case hurricaneSS:
-						category = Integer.parseInt(cell.toString().substring(9,9));
+						category = Integer.parseInt(cell.toString().substring(9,10));
 						break;
 					case hurricaneDate:
-						String[] arr = cell.toString().split("/");
-						month = Integer.parseInt(arr[0]);
-						day = Integer.parseInt(arr[1]);
+						Date arr = new SimpleDateFormat("dd-MMM-yyyy").parse(cell.toString());
+						Calendar cal = new GregorianCalendar();
+						cal.setTime(arr);
+						cal.get(Calendar.YEAR);
+//						System.out.println(cal.get(Calendar.MONTH)+"  "+cal.get(Calendar.DAY_OF_MONTH));
+						month = cal.get(Calendar.MONTH)+1;
+						day = cal.get(Calendar.DAY_OF_MONTH);
 						break;
 
 					case hurricaneYear:
-						year = Integer.parseInt(cell.toString());
+						year = (int)Float.parseFloat(cell.toString());
 						//System.out.println(dollarToInt(cell.toString()));
 						break;
 
@@ -214,13 +218,15 @@ public class ExcelFileReader {
 						break;
 					}
 //					System.out.println(name+" "+category+" "+date+" "+year+" "+month+" "+day+" "+state);
-					System.out.println(name);
 
-					hurricaneData hD = new hurricaneData(name,category,date,year,month,day,state);
-					data.put(name,hD);
+
 				}
 
+
 			}
+			System.out.println(name+" + "+category+" + "+date+" + "+year+" + "+month+" + "+day+" + "+state);
+			hurricaneData hD = new hurricaneData(name,category,date,year,month,day,state);
+			data.put(name,hD);
 			relativeLoc = -1;
 			rowCount++;
 		}
