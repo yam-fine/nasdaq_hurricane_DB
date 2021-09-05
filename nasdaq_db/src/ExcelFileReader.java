@@ -37,10 +37,10 @@ public class ExcelFileReader {
 
 	//	ExcelFileRader(String usersPath){}
 
-	public Map<Integer, dateData> readStockDataFile(String usersPath) throws ParseException {
+	public HashMap<Integer, dateData> readStockDataFile(String usersPath) throws ParseException {
 		try {
 			//obtaining input bytes from a file
-			fis = new FileInputStream(new File("nasdaq_db/seconedchance.xlsx"));
+			fis = new FileInputStream(new File(usersPath));
 
 		} catch (Exception e) {
 			System.out.println("Problem with file reading in excel file read class ");
@@ -57,7 +57,7 @@ public class ExcelFileReader {
 		}
 
 		sheet = wb.getSheetAt(0);
-		Map<Integer, dateData> data = new HashMap<>();
+		HashMap<Integer, dateData> data = new HashMap<>();
 		int rowCount = 0;
 		int relativeLoc = -1;
 		int date = 0;float close = 0,open = 0 ,high = 0,low = 0;int volume = 0;
@@ -102,6 +102,7 @@ public class ExcelFileReader {
 		}
 		return data;
 	}
+
 	public int dateToInt(String cellString) throws ParseException {
 		String[] values;
 		boolean os_changes_values = false;
@@ -134,9 +135,6 @@ public class ExcelFileReader {
 			return num;
 		}
 		else if(values.length == 3 && os_changes_values){
-//			Calendar cal = Calendar.getInstance();
-//			java.util.Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(values[1]);
-//			cal.setTime(date);
 			System.out.println(cellString);
 			int day = Integer.parseInt(values[0]);
 			int month = dic.get(values[1]);
@@ -160,27 +158,25 @@ public class ExcelFileReader {
 	/*
 		function Purpose is to get hurricanes data file and put the data into hash table
 	 */
-	public Map<String, ArrayList<hurricaneData>> readHurricanekDataFile(String usersPath, int years) throws ParseException {
+	public HashMap<String, ArrayList<hurricaneData>> readHurricanekDataFile(String usersPath) throws ParseException {
 		try {
 			//obtaining input bytes from a file
-			fis = new FileInputStream(new File("nasdaq_db/hurricaneDB.xlsx"));
-
-		} catch (Exception e) {
+			fis = new FileInputStream(new File(usersPath));
+		}
+		catch (Exception e) {
 			System.out.println("Problem with file reading in excel file read class ");
 			return null;
-
 		}
 		try {
 			//creating workbook instance that refers to .xls file
 			wb = new XSSFWorkbook(fis);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println("Problem with workbook instance in excel file read class ");
 			return null;
-
 		}
-
 		sheet = wb.getSheetAt(0);
-		Map<String, ArrayList<hurricaneData>> data = new HashMap<>();
+		HashMap<String, ArrayList<hurricaneData>> data = new HashMap<>();
 		int rowCount = 0;
 		int relativeLoc = -1;
 		for (Row row : sheet) {
@@ -205,23 +201,17 @@ public class ExcelFileReader {
 						month = cal.get(Calendar.MONTH)+1;
 						day = cal.get(Calendar.DAY_OF_MONTH);
 						break;
-
 					case hurricaneYear:
 						year = (int)Float.parseFloat(cell.toString());
 						//System.out.println(dollarToInt(cell.toString()));
 						break;
-
 					case hurricanState:
 						state = cell.toString();
 						//System.out.println(dollarToInt(cell.toString()));
 						break;
 					}
 //					System.out.println(name+" "+category+" "+date+" "+year+" "+month+" "+day+" "+state);
-
-
 				}
-
-
 			}
 //			System.out.println(name+" + "+category+" + "+date+" + "+year+" + "+month+" + "+day+" + "+state);
 			hurricaneData hD = new hurricaneData(name,category,date,year,month,day,state);
@@ -234,8 +224,6 @@ public class ExcelFileReader {
 		}
 		return data;
 	}
-
-
 }
 
 
