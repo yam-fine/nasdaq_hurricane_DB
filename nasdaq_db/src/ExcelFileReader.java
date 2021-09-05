@@ -126,6 +126,7 @@ public class ExcelFileReader {
 			os_changes_values = true;
 		}
 		if (values.length == 3 && !os_changes_values) {
+			System.out.println(cellString);
 			int day = Integer.parseInt(values[1]);
 			int month = Integer.parseInt(values[0]);
 			int year = Integer.parseInt(values[2]);
@@ -136,7 +137,7 @@ public class ExcelFileReader {
 //			Calendar cal = Calendar.getInstance();
 //			java.util.Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(values[1]);
 //			cal.setTime(date);
-//			System.out.println(cellString);
+			System.out.println(cellString);
 			int day = Integer.parseInt(values[0]);
 			int month = dic.get(values[1]);
 			int year = Integer.parseInt(values[2]);
@@ -159,7 +160,7 @@ public class ExcelFileReader {
 	/*
 		function Purpose is to get hurricanes data file and put the data into hash table
 	 */
-	public Map<String, hurricaneData> readHurricanekDataFile(String usersPath, int years) throws ParseException {
+	public Map<String, ArrayList<hurricaneData>> readHurricanekDataFile(String usersPath, int years) throws ParseException {
 		try {
 			//obtaining input bytes from a file
 			fis = new FileInputStream(new File("nasdaq_db/hurricaneDB.xlsx"));
@@ -179,14 +180,12 @@ public class ExcelFileReader {
 		}
 
 		sheet = wb.getSheetAt(0);
-		Map<String, hurricaneData> data = new HashMap<>();
+		Map<String, ArrayList<hurricaneData>> data = new HashMap<>();
 		int rowCount = 0;
 		int relativeLoc = -1;
-//		int yearnum = 2012;
 		for (Row row : sheet) {
 			String name = null; String state = null; int date = 0; int category = 0;
 			int year = 0;int month = 0;int day = 0;
-
 			for (Cell cell : row) {
 				if(rowCount>=1) {
 					relativeLoc += 1;
@@ -226,7 +225,10 @@ public class ExcelFileReader {
 			}
 			System.out.println(name+" + "+category+" + "+date+" + "+year+" + "+month+" + "+day+" + "+state);
 			hurricaneData hD = new hurricaneData(name,category,date,year,month,day,state);
-			data.put(name,hD);
+			if (data.get(name) == null){
+				data.put(name,new ArrayList<hurricaneData>());
+			}
+			data.get(name).add(hD);
 			relativeLoc = -1;
 			rowCount++;
 		}

@@ -5,6 +5,6 @@ public class main {
 //		System.out.println("Hello world!");
 		ExcelFileReader Fr = new ExcelFileReader();
 //		Fr.readStockDataFile("path");
-		Fr.readHurricanekDataFile("path",34);
+//		Fr.readHurricanekDataFile("path",34);
 	}
 }

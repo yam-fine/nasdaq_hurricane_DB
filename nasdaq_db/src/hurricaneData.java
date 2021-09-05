@@ -21,6 +21,7 @@ public class hurricaneData {
 	}
 
 	public String getName(){return name;}
+	public String getState(){return state;}
 	public int getCategory(){return category;}
 	public int getDate(){return date;}
 	public int getYear(){return year;}
