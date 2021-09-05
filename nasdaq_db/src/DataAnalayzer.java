@@ -39,6 +39,9 @@ public class DataAnalayzer {
 
 			}
 		}
+		float expectancy  = findExpectancy(int level);
+		float sD  = findStandarddeviation(int level);
+
 		return data;
 	}
 
