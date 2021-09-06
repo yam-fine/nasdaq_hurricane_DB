@@ -2,24 +2,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
-	The class analyzes the different types of information, there are two types of information stocks and
-	storms
- */
+//אני רוצה למצוא התאמה באמצעות דאטה יעני גש להוריקן ואחכ לך למניה בתאריכים שלנו תמצא ממוצע שבועי של הQ
 public class DataAnalayzer {
-	//A map that maps hurricane's name and the various location where he was
 	HashMap<String, ArrayList<hurricaneData>>  hD ;
-	//A map that maps  dates to stock's data
 	HashMap<Integer, dateData> dD;
-	//A map that maps  dates to quarters
 	HashMap<String, Date> quarters;
 
-	/**
-	 *
-	 * @param hd hurricanes data
-	 * @param dd stock's date data
-	 * @throws ParseException
-	 */
 	DataAnalayzer(HashMap<String, ArrayList<hurricaneData>> hd,HashMap<Integer, dateData> dd) throws ParseException {
 		hD =hd;
 		dD =dd;
@@ -29,11 +17,7 @@ public class DataAnalayzer {
 		quarters.put("Q3",new SimpleDateFormat("dd/MM/yyyy").parse("10/07/2021"));
 		quarters.put("Q4",new SimpleDateFormat("dd/MM/yyyy").parse("14/11//2021"));
 	}
-
-	/**
-	 * function calculates expectancy and standard deviation
-	 * @return
-	 */
+	
 	HashMap<String, ArrayList<HurricaneStateIndicator>> findChangePerStorm(){
 		if( hD == null || dD == null){
 			return null;
@@ -55,19 +39,49 @@ public class DataAnalayzer {
 
 			}
 		}
-		float expectancy  = findExpectancy(int level);
-		float sD  = findStandarddeviation(int level);
-
+		ExpectedVal(1, 10);
+		SD(1, 10);
 		return data;
 	}
 
-	/**
-	 *
-	 * @param i quarter number
-	 * @param year year of the date
-	 * @return the avg of the week on the quarter
-	 */
-	private float getAvgOfWeek(int i,int year) {
+	private float ExpectedVal(int level, int daysAfterHurricaneStart){
+		float exp = 0;
+		int count = 0;
+		for (String name : hD.keySet()){
+			for (hurricaneData hurricane : hD.get(name)){
+				if (hurricane.getCategory() >= level) {
+					for (int i = 0; i <= daysAfterHurricaneStart; i+= 7) {
+						exp += (daysAfterHurricaneStart - i >= 7) ?
+								getAvgOfWeek(3, hurricane.getYear()) * 7 : // hurricanes always in 3rd quarter
+								getAvgOfWeek(3, hurricane.getYear()) * (daysAfterHurricaneStart - i);
+						count += Math.min(7, daysAfterHurricaneStart - i);
+					}
+				}
+			}
+		}
+		return exp / count;
+	}
+
+	private float SD(int level, int daysAfterHurricaneStart){
+		float exp = 0;
+		int count = 0;
+		for (String name : hD.keySet()){
+			for (hurricaneData hurricane : hD.get(name)){
+				if (hurricane.getCategory() >= level) {
+					for (int i = 0; i <= daysAfterHurricaneStart; i+= 7) {
+						exp += (daysAfterHurricaneStart - i >= 7) ?
+								getAvgOfWeek(3, hurricane.getYear()) * 7 : // hurricanes always in 3rd quarter
+								getAvgOfWeek(3, hurricane.getYear()) * (daysAfterHurricaneStart - i);
+						count += Math.min(7, daysAfterHurricaneStart - i);
+					}
+				}
+			}
+		}
+		float E_Squared = (float) (Math.pow(exp, 2) / count);
+		return (float) Math.sqrt(E_Squared - ExpectedVal(level, daysAfterHurricaneStart));
+	}
+
+	private int getAvgOfWeek(int i,int year) {
 			Date firstDay = quarters.get(i);
 			Calendar cal = new GregorianCalendar();
 			cal.setTime(firstDay);
@@ -84,11 +98,6 @@ public class DataAnalayzer {
 			return totalVal/dayCounter;
 	}
 
-	/**
-	 * function finds the date that fits the quarter
-	 * @param date some date represented ny integer in length 8
-	 * @return number of quarter
-	 */
 	private int getQ(int date) {
 		int month  = (date % 1000) / 10;
 		if(month == 11 || month == 12 || month == 1){

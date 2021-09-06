@@ -223,10 +223,10 @@ public class ExcelFileReader {
 
 
 			}
-//			System.out.println(name+" + "+category+" + "+date+" + "+year+" + "+month+" + "+day+" + "+state);
+			System.out.println(name+" + "+category+" + "+date+" + "+year+" + "+month+" + "+day+" + "+state);
 			hurricaneData hD = new hurricaneData(name,category,date,year,month,day,state);
 			if (data.get(name) == null){
-				data.put(name, new ArrayList<>());
+				data.put(name,new ArrayList<hurricaneData>());
 			}
 			data.get(name).add(hD);
 			relativeLoc = -1;
