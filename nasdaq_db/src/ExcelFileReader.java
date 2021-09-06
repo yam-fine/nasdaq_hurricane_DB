@@ -37,7 +37,7 @@ public class ExcelFileReader {
 
 	//	ExcelFileRader(String usersPath){}
 
-	public Map<Integer, dateData> readStockDataFile(String usersPath) throws ParseException {
+	public HashMap<Integer, dateData> readStockDataFile(String usersPath) throws ParseException {
 		try {
 			//obtaining input bytes from a file
 			fis = new FileInputStream(new File("nasdaq_db/seconedchance.xlsx"));
@@ -57,7 +57,7 @@ public class ExcelFileReader {
 		}
 
 		sheet = wb.getSheetAt(0);
-		Map<Integer, dateData> data = new HashMap<>();
+		HashMap<Integer, dateData> data = new HashMap<>();
 		int rowCount = 0;
 		int relativeLoc = -1;
 		int date = 0;float close = 0,open = 0 ,high = 0,low = 0;int volume = 0;
@@ -160,7 +160,7 @@ public class ExcelFileReader {
 	/*
 		function Purpose is to get hurricanes data file and put the data into hash table
 	 */
-	public Map<String, ArrayList<hurricaneData>> readHurricanekDataFile(String usersPath, int years) throws ParseException {
+	public HashMap<String, ArrayList<hurricaneData>> readHurricanekDataFile(String usersPath, int years) throws ParseException {
 		try {
 			//obtaining input bytes from a file
 			fis = new FileInputStream(new File("nasdaq_db/hurricaneDB.xlsx"));
@@ -180,7 +180,7 @@ public class ExcelFileReader {
 		}
 
 		sheet = wb.getSheetAt(0);
-		Map<String, ArrayList<hurricaneData>> data = new HashMap<>();
+		HashMap<String, ArrayList<hurricaneData>> data = new HashMap<>();
 		int rowCount = 0;
 		int relativeLoc = -1;
 		for (Row row : sheet) {
@@ -234,6 +234,7 @@ public class ExcelFileReader {
 		}
 		return data;
 	}
+
 
 
 }
