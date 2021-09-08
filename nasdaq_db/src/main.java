@@ -14,7 +14,7 @@ public class main {
 		String stocksName = "Flour";
 		HashMap<Integer, dateData> dD = Fr.readStockDataFile("nasdaq_db/seconedchance.xlsx");
 		HashMap<String, ArrayList<hurricaneData>> hD = Fr.readHurricanekDataFile("nasdaq_db/hurricaneDB.xlsx",2005);
-		String[] states = hD.getStates;
+
 		//the exp of all hurricanes in life time of stock
 		float exp = hD.findExpectancy(0);
 		//the exp of all hurricanes in level 3+ in life time of stock
@@ -23,11 +23,11 @@ public class main {
 		float exp4plus = hD.findExpectancy(4);
 		//the sd of all hurricanes in life time of stock
 		float sd = hD.findStandarddeviation(0);
-		//list of changes in stock per hurricane "life time of stock
+		//list of changes in stock per hurricane life time of stock
 		float sd3plus = hD.findStandarddeviation(3);
-		//list of changes in stock per hurricane "life time of stock
+		//list of changes in stock per hurricane life time of stock
 		float sd4plus = hD.findStandarddeviation(4);
-		//list of changes in stock per hurricane "life time of stock
+		//list of changes in stock per hurricane life time of stock
 		float[] avgPStorm = hD.avgPerStorm();
 
 		System.out.println(stocksName + totalExp + exp + "\n" + Exp3plus + exp3plus + "\n" + Exp4plus + exp4plus +"\n");
