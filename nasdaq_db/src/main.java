@@ -10,26 +10,19 @@ public class main {
 		HashMap<String, ArrayList<hurricaneData>> hD = Fr.readHurricanekDataFile("nasdaq_db/hurricaneDB.xlsx",2005);
 		String[] states = hD.getStates;
 		//the exp of all hurricanes in "life time of stock"
-		float exp = hD.findExpectancy();
+		float exp = hD.findExpectancy(0);
+		//the exp of all hurricanes in "life time of stock"
+		float exp3plus = hD.findExpectancy(3);
 		//the sd of all hurricanes in "life time of stock"
-		float sd = hD.findStandarddeviation();
+		float exp4plus = hD.findExpectancy(4);
+		//the sd of all hurricanes in "life time of stock"
+		float sd = hD.findStandarddeviation(0);
+		//list of changes in stock per hurricane "life time of stock"
+		float sd3plus = hD.findStandarddeviation(3);
+		float sd4plus = hD.findStandarddeviation(4);
 		//list of changes in stock per hurricane "life time of stock"
 		float[] avgPStorm = hD.avgPerStorm();
 		//add change to reader file
-		HashMap<String,ArrayList<hurricaneData>> stateToHurricane = new HashMap<>();
-		//changeData holds hurricanes name data and affect on stock
-		HashMap<String,ArrayList<changeData>> stateToPercentage = new HashMap<>();
-		for (String str : states){
-			stateToCercentage.put(str, hD.AvgPerState(stateName,level));
-		}
-
-		String state = findClosestStateToStorm();
-
-		//stock SYMBOL
-
-
-		//		DataAnalayzer dA = new DataAnalayzer(hD,dD);
-//		dA.findChangePerStorm();
 		System.out.println("sssssssssssssssssssssss");
 
 	}
