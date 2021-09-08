@@ -2,7 +2,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-//אני רוצה למצוא התאמה באמצעות דאטה יעני גש להוריקן ואחכ לך למניה בתאריכים שלנו תמצא ממוצע שבועי של הQ
 public class DataAnalayzer {
 	HashMap<String, ArrayList<hurricaneData>>  hD ;
 	HashMap<Integer, dateData> dD;
@@ -44,7 +43,7 @@ public class DataAnalayzer {
 		return data;
 	}
 
-	private float ExpectedVal(int level, int daysAfterHurricaneStart){
+	public float ExpectedVal(int level, int daysAfterHurricaneStart){
 		float exp = 0;
 		int count = 0;
 		for (String name : hD.keySet()){
@@ -62,7 +61,7 @@ public class DataAnalayzer {
 		return exp / count;
 	}
 
-	private float SD(int level, int daysAfterHurricaneStart){
+	public float SD(int level, int daysAfterHurricaneStart){
 		float exp = 0;
 		int count = 0;
 		for (String name : hD.keySet()){
