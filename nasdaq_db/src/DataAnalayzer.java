@@ -52,8 +52,8 @@ public class DataAnalayzer {
 				if (hurricane.getCategory() >= level) {
 					for (int i = 0; i <= daysAfterHurricaneStart; i+= 7) {
 						exp += (daysAfterHurricaneStart - i >= 7) ?
-								getAvgOfWeek(3, hurricane.getYear()) * 7 : // hurricanes always in 3rd quarter
-								getAvgOfWeek(3, hurricane.getYear()) * (daysAfterHurricaneStart - i);
+								getAvgOfWeek(getQ(hurricane.getDate()), hurricane.getYear()) * 7 :
+								getAvgOfWeek(getQ(hurricane.getDate()), hurricane.getYear()) * (daysAfterHurricaneStart - i);
 						count += Math.min(7, daysAfterHurricaneStart - i);
 					}
 				}
@@ -69,11 +69,10 @@ public class DataAnalayzer {
 			for (hurricaneData hurricane : hD.get(name)){
 				if (hurricane.getCategory() >= level) {
 					for (int i = 0; i <= daysAfterHurricaneStart; i+= 7) {
+						int q = getQ(hurricane.getDate());
 						exp += (daysAfterHurricaneStart - i >= 7) ?
-								getAvgOfWeek(3, hurricane.getYear()) * 7 : // hurricanes always in 3rd quarter
-							   // i dont want this assumption we may also use this algo for floods and
-							   // other kidns of disasters
-								getAvgOfWeek(3, hurricane.getYear()) * (daysAfterHurricaneStart - i);
+								getAvgOfWeek(q, hurricane.getYear()) * 7 :
+								getAvgOfWeek(q, hurricane.getYear()) * (daysAfterHurricaneStart - i);
 						count += Math.min(7, daysAfterHurricaneStart - i);
 					}
 				}
@@ -113,5 +112,5 @@ public class DataAnalayzer {
 		}
 		return 4;
 	}
-
+	
 }
