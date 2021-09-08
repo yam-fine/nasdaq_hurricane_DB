@@ -12,14 +12,14 @@ public class hurricaneData {
 	private final int day;
 
 
-	public hurricaneData(String name, int category, int date, int y, int m, int d,String state){
+	public hurricaneData(String name, int category, int y, int m, int d,String state){
 		this.name = name;
 		this.category = category;
-		this.date = date;
 		this.year = y;
 		this.month = m;
 		this.day = d;
 		this.state = state;
+		this.date = year*10000+month*100+day;
 	}
 
 	public String getName(){return name;}

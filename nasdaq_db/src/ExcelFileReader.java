@@ -68,7 +68,7 @@ public class ExcelFileReader {
 					relativeLoc += 1;
 					switch (relativeLoc) {
 					case stockDate:
-						System.out.println(dateToInt(cell.toString()));
+//						System.out.println(dateToInt(cell.toString()));
 						date = dateToInt(cell.toString());
 						break;
 					case stockClose:
@@ -126,7 +126,7 @@ public class ExcelFileReader {
 			os_changes_values = true;
 		}
 		if (values.length == 3 && !os_changes_values) {
-			System.out.println(cellString);
+//			System.out.println(cellString);
 			int day = Integer.parseInt(values[1]);
 			int month = Integer.parseInt(values[0]);
 			int year = Integer.parseInt(values[2]);
@@ -137,7 +137,7 @@ public class ExcelFileReader {
 //			Calendar cal = Calendar.getInstance();
 //			java.util.Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(values[1]);
 //			cal.setTime(date);
-			System.out.println(cellString);
+//			System.out.println(cellString);
 			int day = Integer.parseInt(values[0]);
 			int month = dic.get(values[1]);
 			int year = Integer.parseInt(values[2]);
@@ -184,7 +184,7 @@ public class ExcelFileReader {
 		int rowCount = 0;
 		int relativeLoc = -1;
 		for (Row row : sheet) {
-			String name = null; String state = null; int date = 0; int category = 0;
+			String name = null; String state = null; int category = 0;
 			int year = 0;int month = 0;int day = 0;
 			for (Cell cell : row) {
 				if(rowCount>=1) {
@@ -223,8 +223,8 @@ public class ExcelFileReader {
 
 
 			}
-			System.out.println(name+" + "+category+" + "+date+" + "+year+" + "+month+" + "+day+" + "+state);
-			hurricaneData hD = new hurricaneData(name,category,date,year,month,day,state);
+//			System.out.println(name+" + "+category+" + "+date+" + "+year+" + "+month+" + "+day+" + "+state);
+			hurricaneData hD = new hurricaneData(name,category,year,month,day,state);
 			if (data.get(name) == null){
 				data.put(name,new ArrayList<hurricaneData>());
 			}

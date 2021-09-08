@@ -14,7 +14,7 @@ public class DataAnalayzer {
 		quarters.put("Q1",new SimpleDateFormat("dd/MM/yyyy").parse("10/01/2021"));
 		quarters.put("Q2",new SimpleDateFormat("dd/MM/yyyy").parse("7/4/2021"));
 		quarters.put("Q3",new SimpleDateFormat("dd/MM/yyyy").parse("10/07/2021"));
-		quarters.put("Q4",new SimpleDateFormat("dd/MM/yyyy").parse("14/11//2021"));
+		quarters.put("Q4",new SimpleDateFormat("dd/MM/yyyy").parse("14/11/2021"));
 	}
 	
 	HashMap<String, ArrayList<HurricaneStateIndicator>> findChangePerStorm(){
@@ -45,20 +45,21 @@ public class DataAnalayzer {
 
 	public float ExpectedVal(int level, int daysAfterHurricaneStart){
 		float exp = 0;
-		int count = 0;
+		//iterate over all hurricanes
 		for (String name : hD.keySet()){
-			for (hurricaneData hurricane : hD.get(name)){
-				if (hurricane.getCategory() >= level) {
-					for (int i = 0; i <= daysAfterHurricaneStart; i+= 7) {
+			hurricaneData hurricane = hD.get(name).get(0);
+			if(name != null) {
+				if (hurricane.getCategory() >= level && !name.equals("Unnamed")) {
+					for (int i = 0; i <= daysAfterHurricaneStart; i += 7) {
 						exp += (daysAfterHurricaneStart - i >= 7) ?
-								getAvgOfWeek(getQ(hurricane.getDate()), hurricane.getYear()) * 7 :
-								getAvgOfWeek(getQ(hurricane.getDate()), hurricane.getYear()) * (daysAfterHurricaneStart - i);
-						count += Math.min(7, daysAfterHurricaneStart - i);
+							   getAvgOfWeek(getQ(hurricane.getDate()), hurricane.getYear()) * 7 :
+							   getAvgOfWeek(getQ(hurricane.getDate()), hurricane.getYear()) *
+							   (daysAfterHurricaneStart - i);
 					}
 				}
 			}
 		}
-		return exp / count;
+		return exp / daysAfterHurricaneStart;
 	}
 
 	public float SD(int level, int daysAfterHurricaneStart){
@@ -66,13 +67,15 @@ public class DataAnalayzer {
 		int count = 0;
 		for (String name : hD.keySet()){
 			for (hurricaneData hurricane : hD.get(name)){
-				if (hurricane.getCategory() >= level) {
-					for (int i = 0; i <= daysAfterHurricaneStart; i+= 7) {
-						int q = getQ(hurricane.getDate());
-						exp += (daysAfterHurricaneStart - i >= 7) ?
-								getAvgOfWeek(q, hurricane.getYear()) * 7 :
-								getAvgOfWeek(q, hurricane.getYear()) * (daysAfterHurricaneStart - i);
-						count += Math.min(7, daysAfterHurricaneStart - i);
+				if(name != null){
+					if (hurricane.getCategory() >= level && name.equals("Unnamed")) {
+						for (int i = 0; i <= daysAfterHurricaneStart; i+= 7) {
+							int q = getQ(hurricane.getDate());
+							exp += (daysAfterHurricaneStart - i >= 7) ?
+									getAvgOfWeek(q, hurricane.getYear()) * 7 :
+									getAvgOfWeek(q, hurricane.getYear()) * (daysAfterHurricaneStart - i);
+							count += Math.min(7, daysAfterHurricaneStart - i);
+						}
 					}
 				}
 			}
@@ -82,20 +85,20 @@ public class DataAnalayzer {
 	}
 
 	private int getAvgOfWeek(int i,int year) {
-			Date firstDay = quarters.get(i);
-			Calendar cal = new GregorianCalendar();
-			cal.setTime(firstDay);
-			cal.get(Calendar.YEAR);
-			int first = year * 1000 + cal.get(Calendar.MONTH) * 10 + cal.get(Calendar.DAY_OF_MONTH);
-			int dayCounter = 0; int totalVal = 0;
-			for (int day = first; day < first + 8; day++){
-				if(dD.get(day) != null){
-					dayCounter++;
-					totalVal += (dD.get(day).getClose() + dD.get(day).getOpen())/2;
-				}
+		Date firstDay = quarters.get("Q" + String.valueOf(i));
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(firstDay);
+		cal.get(Calendar.YEAR);
+		int first = year * 10000 + cal.get(Calendar.MONTH) * 100 + cal.get(Calendar.DAY_OF_MONTH);
+		int dayCounter = 0; int totalVal = 0;
+		for (int day = first; day < first + 8; day++){
+			if(dD.get(day) != null){
+				dayCounter++;
+				totalVal += (dD.get(day).getClose() + dD.get(day).getOpen())/2;
 			}
-			if(totalVal ==0){return 0;}
-			return totalVal/dayCounter;
+		}
+		if(totalVal ==0){return 0;}
+		return totalVal/dayCounter;
 	}
 
 	private int getQ(int date) {

@@ -12,7 +12,7 @@ public class main {
 
 	public static void main(String[] args) throws ParseException {
 		ExcelFileReader Fr = new ExcelFileReader();
-		String stocksName = "FLR";
+		String stocksName = "FLR STOCK";
 		HashMap<Integer, dateData> dD = Fr.readStockDataFile("nasdaq_db/seconedchance.xlsx");
 		HashMap<String, ArrayList<hurricaneData>> hD = Fr.readHurricanekDataFile("nasdaq_db/hurricaneDB.xlsx",2005);
 		DataAnalayzer datAnal = new DataAnalayzer(hD, dD);
@@ -31,5 +31,8 @@ public class main {
 		//list of changes in stock per hurricane "life time of stock"
 //		float[] avgPStorm = hD.avgPerStorm();
 		//add change to reader file
+		System.out.println(stocksName +"\n" + totalExp + exp +"\n"+ Exp3plus + exp3plus +"\n"+ Exp4plus + exp4plus +"\n");
+		System.out.println(stocksName +"\n"+ totalSd + sd +"\n"+ Sd3plus + sd3plus +"\n"+ Sd4plus + sd4plus +"\n");
+
 	}
 }
