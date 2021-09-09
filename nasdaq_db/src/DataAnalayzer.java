@@ -24,11 +24,9 @@ public class DataAnalayzer {
 		//iterate over all hurricanes
 		for (String name : hD.keySet()){
 			for(hurricaneData hsi : hD.get(name)){
-			if(name != null && hsi != null && !name.equals("Unnamed")&& hsi.getYear()>= mY) {
-				if (hsi.getCategory() >= level) {
-					exp += hsi.getChange();
-					count++;
-				}
+			if(name != null && hsi != null && !name.equals("Unnamed")&& hsi.getYear()>= mY && hsi.getCategory() >= level && hsi.getChange()!= 0) {
+				exp += hsi.getChange();
+				count++;
 			}
 		}
 		}
@@ -38,19 +36,17 @@ public class DataAnalayzer {
 	public float SD(int level){
 		double exp = 0;
 		int count = 0;
-		double eVSqr = Math.pow(ExpectedVal(level),2);
+		double eVSqr = ExpectedVal(level);
 		for (String name : hD.keySet()){
 			for(hurricaneData hsi : hD.get(name)) {
-				if (name != null && hsi != null && !name.equals("Unnamed") && hsi.getYear()>= mY) {
-					if (hsi.getCategory() >= level) {
-						exp += Math.pow((hsi.getChange()), 2);
-						count++;
-					}
+				if (name != null && hsi != null && !name.equals("Unnamed") && hsi.getYear()>= mY && hsi.getCategory() >= level && hsi.getChange()!= 0) {
+					exp += Math.pow((eVSqr-hsi.getChange()), 2);
+					count++;
 				}
 			}
 
 		}
-		return (float) Math.sqrt(Math.abs(eVSqr - (exp/count)));
+		return (float) Math.sqrt(Math.abs(exp/count));
 	}
 
 	

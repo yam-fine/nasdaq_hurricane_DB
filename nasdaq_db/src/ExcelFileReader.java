@@ -40,7 +40,7 @@ public class ExcelFileReader {
 	public HashMap<Integer, dateData> readStockDataFile(String usersPath) throws ParseException {
 		try {
 			//obtaining input bytes from a file
-			fis = new FileInputStream(new File("nasdaq_db/seconedchance.xlsx"));
+			fis = new FileInputStream(new File(usersPath));
 
 		} catch (Exception e) {
 			System.out.println("Problem with file reading in excel file read class ");
@@ -165,7 +165,7 @@ public class ExcelFileReader {
 																			HashMap<Integer, dateData> stockData) throws ParseException {
 		try {
 			//obtaining input bytes from a file
-			fis = new FileInputStream(new File("nasdaq_db/hurricaneDB.xlsx"));
+			fis = new FileInputStream(new File(usersPath));
 
 		} catch (Exception e) {
 			System.out.println("Problem with file reading in excel file read class ");

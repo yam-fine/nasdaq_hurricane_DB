@@ -15,21 +15,21 @@ public class main {
 		String stocksName = "FLR STOCK";
 		HashMap<Integer, dateData> dD = Fr.readStockDataFile("nasdaq_db/fulldata.xlsx");
 		HashMap<String, ArrayList<hurricaneData>> hD = Fr.readHurricanekDataFile("nasdaq_db/hurricaneDB" +
-																				 ".xlsx",2005, dD);
-		DataAnalayzer datAnal = new DataAnalayzer(hD, dD,2002);
+																				 ".xlsx",2002, dD);
+		DataAnalayzer dataAnalayzer = new DataAnalayzer(hD, dD,2002);
 //		datAnal.findChangePerStorm(7);
 
 		//the exp of all hurricanes in "life time of stock"
-		float exp = datAnal.ExpectedVal(0);
+		float exp = dataAnalayzer.ExpectedVal(0);
 		//the exp of all hurricanes in "life time of stock"
-		float exp3plus = datAnal.ExpectedVal(3);
+		float exp3plus = dataAnalayzer.ExpectedVal(3);
 		//the sd of all hurricanes in "life time of stock"
-		float exp4plus = datAnal.ExpectedVal(4);
+		float exp4plus = dataAnalayzer.ExpectedVal(4);
 		//the sd of all hurricanes in "life time of stock"
-		float sd = datAnal.SD(0);
+		float sd = dataAnalayzer.SD(0);
 		//list of changes in stock per hurricane "life time of stock"
-		float sd3plus = datAnal.SD(3);
-		float sd4plus = datAnal.SD(4);
+		float sd3plus = dataAnalayzer.SD(3);
+		float sd4plus = dataAnalayzer.SD(4);
 		//list of changes in stock per hurricane "life time of stock"
 //		float[] avgPStorm = hD.avgPerStorm();
 		//add change to reader file
