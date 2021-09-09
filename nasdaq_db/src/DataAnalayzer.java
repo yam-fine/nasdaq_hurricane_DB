@@ -6,113 +6,52 @@ public class DataAnalayzer {
 	HashMap<String, ArrayList<hurricaneData>>  hD ;
 	HashMap<Integer, dateData> dD;
 	HashMap<String, Date> quarters;
+	int mY;
 
-	DataAnalayzer(HashMap<String, ArrayList<hurricaneData>> hd,HashMap<Integer, dateData> dd) throws ParseException {
+
+	DataAnalayzer(HashMap<String, ArrayList<hurricaneData>> hd,HashMap<Integer, dateData> dd,int minimalYear) throws ParseException {
 		hD =hd;
 		dD =dd;
 		quarters = new HashMap<>() ;
-		quarters.put("Q1",new SimpleDateFormat("dd/MM/yyyy").parse("10/01/2021"));
-		quarters.put("Q2",new SimpleDateFormat("dd/MM/yyyy").parse("7/4/2021"));
-		quarters.put("Q3",new SimpleDateFormat("dd/MM/yyyy").parse("10/07/2021"));
-		quarters.put("Q4",new SimpleDateFormat("dd/MM/yyyy").parse("14/11/2021"));
+		mY = minimalYear;
 	}
 	
-	HashMap<String, ArrayList<HurricaneStateIndicator>> findChangePerStorm(){
-		if( hD == null || dD == null){
-			return null;
-		}
-		HashMap<String, ArrayList<HurricaneStateIndicator>> data = new HashMap<String, ArrayList<HurricaneStateIndicator>>();
-		for (String str: hD.keySet()){
-			for(hurricaneData dHrcn: hD.get(str)){
-				if(dHrcn.getDate()/1000 >= 2005){
-					int qNum = getQ(dHrcn.getDate());
-					int earningsWeekAvg = getAvgOfWeek((qNum%4)+1,dHrcn.getYear());
-					int intDate = dHrcn.getDate();
-					float percent = earningsWeekAvg/ ((dD.get(intDate).getOpen()+dD.get(intDate).getClose())/2);
-					float change = (percent - 1)*100;
-					if (data.get(str) != null){
-						data.put(str,new ArrayList<HurricaneStateIndicator>());
-					}
-					data.get(str).add(new HurricaneStateIndicator(dHrcn.getState(),change));
-				}
 
-			}
-		}
-		ExpectedVal(1, 10);
-		SD(1, 10);
-		return data;
-	}
-
-	public float ExpectedVal(int level, int daysAfterHurricaneStart){
-		float exp = 0;
-		//iterate over all hurricanes
-		for (String name : hD.keySet()){
-			hurricaneData hurricane = hD.get(name).get(0);
-			if(name != null) {
-				if (hurricane.getCategory() >= level && !name.equals("Unnamed")) {
-					for (int i = 0; i <= daysAfterHurricaneStart; i += 7) {
-						exp += (daysAfterHurricaneStart - i >= 7) ?
-							   getAvgOfWeek(getQ(hurricane.getDate()), hurricane.getYear()) * 7 :
-							   getAvgOfWeek(getQ(hurricane.getDate()), hurricane.getYear()) *
-							   (daysAfterHurricaneStart - i);
-					}
-				}
-			}
-		}
-		return exp / daysAfterHurricaneStart;
-	}
-
-	public float SD(int level, int daysAfterHurricaneStart){
+//מבחינתי הוריקן בכל מדיה הוא הוריקן שונה יע ני אם יש הוריקן ב3 מדינות זה 3 הוריקנים
+	public float ExpectedVal(int level){
 		float exp = 0;
 		int count = 0;
+		//iterate over all hurricanes
 		for (String name : hD.keySet()){
-			for (hurricaneData hurricane : hD.get(name)){
-				if(name != null){
-					if (hurricane.getCategory() >= level && name.equals("Unnamed")) {
-						for (int i = 0; i <= daysAfterHurricaneStart; i+= 7) {
-							int q = getQ(hurricane.getDate());
-							exp += (daysAfterHurricaneStart - i >= 7) ?
-									getAvgOfWeek(q, hurricane.getYear()) * 7 :
-									getAvgOfWeek(q, hurricane.getYear()) * (daysAfterHurricaneStart - i);
-							count += Math.min(7, daysAfterHurricaneStart - i);
-						}
-					}
+			for(hurricaneData hsi : hD.get(name)){
+			if(name != null && hsi != null && !name.equals("Unnamed")&& hsi.getYear()>= mY) {
+				if (hsi.getCategory() >= level) {
+					exp += hsi.getChange();
+					count++;
 				}
 			}
 		}
-		float E_Squared = (float) (Math.pow(exp, 2) / count);
-		return (float) Math.sqrt(E_Squared - ExpectedVal(level, daysAfterHurricaneStart));
+		}
+		return exp / count;
 	}
 
-	private int getAvgOfWeek(int i,int year) {
-		Date firstDay = quarters.get("Q" + String.valueOf(i));
-		Calendar cal = new GregorianCalendar();
-		cal.setTime(firstDay);
-		cal.get(Calendar.YEAR);
-		int first = year * 10000 + cal.get(Calendar.MONTH) * 100 + cal.get(Calendar.DAY_OF_MONTH);
-		int dayCounter = 0; int totalVal = 0;
-		for (int day = first; day < first + 8; day++){
-			if(dD.get(day) != null){
-				dayCounter++;
-				totalVal += (dD.get(day).getClose() + dD.get(day).getOpen())/2;
+	public float SD(int level){
+		double exp = 0;
+		int count = 0;
+		double eVSqr = Math.pow(ExpectedVal(level),2);
+		for (String name : hD.keySet()){
+			for(hurricaneData hsi : hD.get(name)) {
+				if (name != null && hsi != null && !name.equals("Unnamed") && hsi.getYear()>= mY) {
+					if (hsi.getCategory() >= level) {
+						exp += Math.pow((hsi.getChange()), 2);
+						count++;
+					}
+				}
 			}
+
 		}
-		if(totalVal ==0){return 0;}
-		return totalVal/dayCounter;
+		return (float) Math.sqrt(Math.abs(eVSqr - (exp/count)));
 	}
 
-	private int getQ(int date) {
-		int month  = (date % 1000) / 10;
-		if(month == 11 || month == 12 || month == 1){
-			return 1;
-		}
-		if( 2<= month && month <=4){
-			return 2;
-		}
-		if(5<= month && month <=7){
-			return 3;
-		}
-		return 4;
-	}
 	
 }

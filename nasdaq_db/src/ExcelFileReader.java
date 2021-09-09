@@ -72,15 +72,15 @@ public class ExcelFileReader {
 						date = dateToInt(cell.toString());
 						break;
 					case stockClose:
-						//System.out.println(dollarToInt(cell.toString()));
+//						System.out.println(dollarToInt(cell.toString()));
 						close = dollarToInt(cell.toString());
 						break;
 					case stockVolume:
-						//System.out.println(volToInt(cell.toString()));
+//						System.out.println(volToInt(cell.toString()));
 						volume = volToInt(cell.toString());
 						break;
 					case stockOpen:
-						//System.out.println(dollarToInt(cell.toString()));
+//						System.out.println(dollarToInt(cell.toString()));
 						open = dollarToInt(cell.toString());
 						break;
 					case stockHigh:
@@ -92,6 +92,7 @@ public class ExcelFileReader {
 						low = dollarToInt(cell.toString());
 					}
 				}
+//				System.out.println(close+" "+open+" "+high+" "+low+" "+volume+" "+date);
 				dateData dD = new dateData(close,volume,open,high,low);
 				data.put(date, dD);
 				//System.out.println(rowCount);
@@ -148,8 +149,8 @@ public class ExcelFileReader {
 	}
 
 	public float dollarToInt(String cellString) {
-//		System.out.println(cellString.substring(1));
-		return Float.parseFloat(cellString.substring(1));
+//		System.out.println(cellString);
+		return Float.parseFloat(cellString);
 	}
 
 	public int volToInt(String cellString) {
@@ -160,7 +161,8 @@ public class ExcelFileReader {
 	/*
 		function Purpose is to get hurricanes data file and put the data into hash table
 	 */
-	public HashMap<String, ArrayList<hurricaneData>> readHurricanekDataFile(String usersPath, int years) throws ParseException {
+	public HashMap<String, ArrayList<hurricaneData>> readHurricanekDataFile(String usersPath, int years,
+																			HashMap<Integer, dateData> stockData) throws ParseException {
 		try {
 			//obtaining input bytes from a file
 			fis = new FileInputStream(new File("nasdaq_db/hurricaneDB.xlsx"));
@@ -216,7 +218,7 @@ public class ExcelFileReader {
 						//System.out.println(dollarToInt(cell.toString()));
 						break;
 					}
-//					System.out.println(name+" "+category+" "+date+" "+year+" "+month+" "+day+" "+state);
+//					System.out.println(name+" "+category+" "+" "+year+" "+month+" "+day+" "+state);
 
 
 				}
@@ -224,9 +226,18 @@ public class ExcelFileReader {
 
 			}
 //			System.out.println(name+" + "+category+" + "+date+" + "+year+" + "+month+" + "+day+" + "+state);
-			hurricaneData hD = new hurricaneData(name,category,year,month,day,state);
+
+			int date = year * 10000 + month * 100 + day;
+
+			float avgPriceOfWeek = getAvgOfDate(date,10,stockData);
+
+			int dateXMLater = calculateXMonthLater(3,year,month,day);
+
+			float avgPrice3MLATER = getAvgOfDate(dateXMLater,10,stockData);
+
+			hurricaneData hD = new hurricaneData(name,category,year,month,day,state,avgPriceOfWeek,avgPrice3MLATER);
 			if (data.get(name) == null){
-				data.put(name,new ArrayList<hurricaneData>());
+				data.put(name,new ArrayList<>());
 			}
 			data.get(name).add(hD);
 			relativeLoc = -1;
@@ -235,8 +246,29 @@ public class ExcelFileReader {
 		return data;
 	}
 
+	private int getAvgOfDate(int date,int numofdays,HashMap<Integer, dateData> dD) {
+
+		int dayCounter = 0; int totalVal = 0;
+		for (int day = date; day < date+numofdays + numofdays; day++){
+			if(dD.get(day) != null){
+				dayCounter++;
+				totalVal += (dD.get(day).getClose() + dD.get(day).getOpen())/2;
+			}
+		}
+		if(totalVal ==0){return 0;}
+		return totalVal/dayCounter;
+	}
+
+	private int calculateXMonthLater(int x,int year, int month, int day) {
+		if(month+x <= 12){
+			return year*10000 + (month+x)*100 + day;
+		}
+		else {
+			return (year+1)*10000 + (month+x-12)*100+ day;
+		}
 
 
+	}
 }
 
 

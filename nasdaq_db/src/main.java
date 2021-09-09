@@ -13,21 +13,23 @@ public class main {
 	public static void main(String[] args) throws ParseException {
 		ExcelFileReader Fr = new ExcelFileReader();
 		String stocksName = "FLR STOCK";
-		HashMap<Integer, dateData> dD = Fr.readStockDataFile("nasdaq_db/seconedchance.xlsx");
-		HashMap<String, ArrayList<hurricaneData>> hD = Fr.readHurricanekDataFile("nasdaq_db/hurricaneDB.xlsx",2005);
-		DataAnalayzer datAnal = new DataAnalayzer(hD, dD);
+		HashMap<Integer, dateData> dD = Fr.readStockDataFile("nasdaq_db/fulldata.xlsx");
+		HashMap<String, ArrayList<hurricaneData>> hD = Fr.readHurricanekDataFile("nasdaq_db/hurricaneDB" +
+																				 ".xlsx",2005, dD);
+		DataAnalayzer datAnal = new DataAnalayzer(hD, dD,2002);
+//		datAnal.findChangePerStorm(7);
 
 		//the exp of all hurricanes in "life time of stock"
-		float exp = datAnal.ExpectedVal(0, 7);
+		float exp = datAnal.ExpectedVal(0);
 		//the exp of all hurricanes in "life time of stock"
-		float exp3plus = datAnal.ExpectedVal(3, 7);
+		float exp3plus = datAnal.ExpectedVal(3);
 		//the sd of all hurricanes in "life time of stock"
-		float exp4plus = datAnal.ExpectedVal(4, 7);
+		float exp4plus = datAnal.ExpectedVal(4);
 		//the sd of all hurricanes in "life time of stock"
-		float sd = datAnal.SD(0, 7);
+		float sd = datAnal.SD(0);
 		//list of changes in stock per hurricane "life time of stock"
-		float sd3plus = datAnal.SD(3, 7);
-		float sd4plus = datAnal.SD(4, 7);
+		float sd3plus = datAnal.SD(3);
+		float sd4plus = datAnal.SD(4);
 		//list of changes in stock per hurricane "life time of stock"
 //		float[] avgPStorm = hD.avgPerStorm();
 		//add change to reader file
